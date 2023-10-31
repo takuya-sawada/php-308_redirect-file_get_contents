@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  www1:
+    image: nginx:latest
+    volumes:
+      - ./www1.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8081:80"
+    depends_on:
+      - php1
+
+  www2:
+    image: nginx:latest
+    volumes:
+      - ./www2.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8082:80"
+    depends_on:
+      - php2
+
+  www3:
+    image: nginx:latest
+    volumes:
+      - ./www3.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8083:80"
+    depends_on:
+      - php3
+
+  php1:
+    image: php:${PHP1}
+    volumes:
+      - ./www1:/var/www/html
+    depends_on:
+      - www2
+
+  php2:
+    image: php:${PHP2}
+    volumes:
+      - ./www2:/var/www/html
+    depends_on:
+      - www3
+
+  php3:
+    image: php:${PHP3}
+    volumes:
+      - ./www3:/var/www/html
